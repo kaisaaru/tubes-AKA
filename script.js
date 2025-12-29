@@ -169,7 +169,9 @@ function runAnalysis() {
   document.getElementById("iterTime").innerText = iterTime + " ms";
 
   // 2. Jalankan Rekursif (Dengan Error Handling untuk Stack Overflow)
-  const SAFE_RECURSION_LIMIT = 10000;
+  // Batas manual - jika lebih dari ini, langsung tampilkan error tanpa mencoba
+  // Browser limit asli akan ditangkap oleh try-catch
+  const SAFE_RECURSION_LIMIT = 15000;
 
   if (text.length > SAFE_RECURSION_LIMIT) {
     document.getElementById("recResult").innerHTML =
@@ -211,9 +213,16 @@ function runAnalysis() {
     } catch (e) {
       console.error(e);
       document.getElementById("recResult").innerHTML =
-        "<span class='error-msg'>Error</span>";
-      document.getElementById("recTime").innerText = "-";
-      showStatus("Terjadi kesalahan pada eksekusi rekursif.", "error");
+        `<span class='error-msg'>Stack Overflow!</span>`;
+      document.getElementById("recTime").innerText = "Gagal";
+      document.getElementById("barRec").style.width = "100%";
+      document.getElementById("barRec").innerText = `Error @ ${text.length.toLocaleString("id-ID")} char`;
+      document.getElementById("barRec").style.background =
+        "linear-gradient(90deg, #1e3a8a, #0f172a)";
+      showStatus(
+        `Stack Overflow terjadi di ukuran input: ${text.length.toLocaleString("id-ID")} karakter. Browser Anda tidak mendukung rekursi sebanyak ini.`,
+        "error"
+      );
     }
   }
 }
