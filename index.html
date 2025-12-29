@@ -272,47 +272,49 @@ function countCapitalRecursive(str, index = 0) {
       <section class="analysis-section">
         <h2>Analisis Perbandingan Kedua Algoritma</h2>
 
-        <table class="complexity-table">
-          <thead>
-            <tr>
-              <th>Aspek</th>
-              <th>Iteratif</th>
-              <th>Rekursif</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Kompleksitas Waktu</strong></td>
-              <td>O(n) - Linear</td>
-              <td>O(n) - Linear</td>
-            </tr>
-            <tr>
-              <td><strong>Kompleksitas Ruang</strong></td>
-              <td class="highlight-good">O(1) - Konstanta</td>
-              <td class="highlight-bad">O(n) - Linear</td>
-            </tr>
-            <tr>
-              <td><strong>Overhead</strong></td>
-              <td class="highlight-good">Rendah (loop biasa)</td>
-              <td class="highlight-bad">Tinggi (function call overhead)</td>
-            </tr>
-            <tr>
-              <td><strong>Risiko Stack Overflow</strong></td>
-              <td class="highlight-good">Tidak ada</td>
-              <td class="highlight-bad">Ada (input besar)</td>
-            </tr>
-            <tr>
-              <td><strong>Readability</strong></td>
-              <td>Mudah dipahami</td>
-              <td>Lebih elegan, konsep matematis</td>
-            </tr>
-            <tr>
-              <td><strong>Best for</strong></td>
-              <td>Input besar, production code</td>
-              <td>Input kecil, educational purpose</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper">
+          <table class="complexity-table">
+            <thead>
+              <tr>
+                <th>Aspek</th>
+                <th>Iteratif</th>
+                <th>Rekursif</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Kompleksitas Waktu</strong></td>
+                <td>O(n) - Linear</td>
+                <td>O(n) - Linear</td>
+              </tr>
+              <tr>
+                <td><strong>Kompleksitas Ruang</strong></td>
+                <td class="highlight-good">O(1) - Konstanta</td>
+                <td class="highlight-bad">O(n) - Linear</td>
+              </tr>
+              <tr>
+                <td><strong>Overhead</strong></td>
+                <td class="highlight-good">Rendah (loop biasa)</td>
+                <td class="highlight-bad">Tinggi (function call overhead)</td>
+              </tr>
+              <tr>
+                <td><strong>Risiko Stack Overflow</strong></td>
+                <td class="highlight-good">Tidak ada</td>
+                <td class="highlight-bad">Ada (input besar)</td>
+              </tr>
+              <tr>
+                <td><strong>Readability</strong></td>
+                <td>Mudah dipahami</td>
+                <td>Lebih elegan, konsep matematis</td>
+              </tr>
+              <tr>
+                <td><strong>Best for</strong></td>
+                <td>Input besar, production code</td>
+                <td>Input kecil, educational purpose</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="analysis-conclusion">
           <h4>Kesimpulan Akhir</h4>
