@@ -41,39 +41,27 @@ function countCapitalRecursive(str, index = 0) {
   return isCapital + countCapitalRecursive(str, index + 1);
 }
 
+// Global variable to track recursive progress
+let lastProcessedIndex = 0;
+
 /**
- * Test maximum stack depth of the browser
- * Uses a function similar to countCapitalRecursive for accurate results
+ * Algoritma Rekursif dengan tracking posisi
+ * Untuk mengetahui di karakter ke berapa overflow terjadi
  */
-function testStackLimit() {
-  const resultEl = document.getElementById("stackLimitResult");
-  resultEl.innerHTML = '<span class="loading">Testing...</span>';
-  resultEl.className = "stack-result";
+function countCapitalRecursiveWithTracking(str, index = 0) {
+  // Update posisi terakhir yang diproses
+  lastProcessedIndex = index;
   
-  // Use setTimeout to allow UI to update
-  setTimeout(() => {
-    let depth = 0;
-    const testStr = "A"; // Sample string
-    
-    // Simulate countCapitalRecursive with similar overhead
-    function testRecurse(str, index) {
-      depth++;
-      const isCapital = (str[0] >= 'A' && str[0] <= 'Z') ? 1 : 0;
-      testRecurse(str, index + 1);
-    }
-    
-    try {
-      testRecurse(testStr, 0);
-    } catch (e) {
-      // Stack overflow caught
-    }
-    
-    // Format the result
-    const formattedDepth = depth.toLocaleString("id-ID");
-    resultEl.innerHTML = `Stack Limit Browser: <strong>${formattedDepth}</strong> level<br>
-      <small style="color: #64748b;">Ini adalah batas maksimal karakter untuk fungsi rekursif countCapital.</small>`;
-    resultEl.className = "stack-result success";
-  }, 100);
+  // Base case: jika index melebihi panjang string
+  if (index >= str.length) {
+    return 0;
+  }
+
+  // Cek apakah karakter saat ini kapital
+  let isCapital = str[index] >= "A" && str[index] <= "Z" ? 1 : 0;
+
+  // Recursive step: tambah hasil saat ini dengan hasil sisa string
+  return isCapital + countCapitalRecursiveWithTracking(str, index + 1);
 }
 
 // ==========================================
@@ -191,9 +179,12 @@ function runAnalysis() {
       "error"
     );
   } else {
+    // Reset tracking variable
+    lastProcessedIndex = 0;
+    
     try {
       const t2 = performance.now();
-      const recResult = countCapitalRecursive(text);
+      const recResult = countCapitalRecursiveWithTracking(text);
       const t3 = performance.now();
       const recTime = (t3 - t2).toFixed(4);
 
@@ -216,15 +207,18 @@ function runAnalysis() {
       );
     } catch (e) {
       console.error(e);
+      // Gunakan lastProcessedIndex untuk menunjukkan posisi overflow
+      const overflowPosition = lastProcessedIndex;
+      
       document.getElementById("recResult").innerHTML =
         `<span class='error-msg'>Stack Overflow!</span>`;
       document.getElementById("recTime").innerText = "Gagal";
       document.getElementById("barRec").style.width = "100%";
-      document.getElementById("barRec").innerText = `Error @ ${text.length.toLocaleString("id-ID")} char`;
+      document.getElementById("barRec").innerText = `Overflow @ karakter ke-${overflowPosition.toLocaleString("id-ID")}`;
       document.getElementById("barRec").style.background =
         "linear-gradient(90deg, #1e3a8a, #0f172a)";
       showStatus(
-        `Stack Overflow terjadi di ukuran input: ${text.length.toLocaleString("id-ID")} karakter. Browser Anda tidak mendukung rekursi sebanyak ini.`,
+        `Stack Overflow! Rekursi berhenti di karakter ke-${overflowPosition.toLocaleString("id-ID")} dari ${text.length.toLocaleString("id-ID")} karakter total.`,
         "error"
       );
     }
