@@ -43,6 +43,7 @@ function countCapitalRecursive(str, index = 0) {
 
 /**
  * Test maximum stack depth of the browser
+ * Uses a function similar to countCapitalRecursive for accurate results
  */
 function testStackLimit() {
   const resultEl = document.getElementById("stackLimitResult");
@@ -52,22 +53,25 @@ function testStackLimit() {
   // Use setTimeout to allow UI to update
   setTimeout(() => {
     let depth = 0;
+    const testStr = "A"; // Sample string
     
-    function recurse() {
+    // Simulate countCapitalRecursive with similar overhead
+    function testRecurse(str, index) {
       depth++;
-      recurse();
+      const isCapital = (str[0] >= 'A' && str[0] <= 'Z') ? 1 : 0;
+      testRecurse(str, index + 1);
     }
     
     try {
-      recurse();
+      testRecurse(testStr, 0);
     } catch (e) {
       // Stack overflow caught
     }
     
     // Format the result
     const formattedDepth = depth.toLocaleString("id-ID");
-    resultEl.innerHTML = `Stack Limit Browser Anda: <strong>${formattedDepth}</strong> level<br>
-      <small style="color: #64748b;">Artinya, maksimal input untuk rekursif adalah sekitar ${formattedDepth} karakter.</small>`;
+    resultEl.innerHTML = `Stack Limit Browser: <strong>${formattedDepth}</strong> level<br>
+      <small style="color: #64748b;">Ini adalah batas maksimal karakter untuk fungsi rekursif countCapital.</small>`;
     resultEl.className = "stack-result success";
   }, 100);
 }
